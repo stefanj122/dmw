@@ -11,7 +11,7 @@ static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display 
 static const int showsystray        = 1;        /* 0 means no systray */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "monospace:size=10" };
+static const char *fonts[]          = { "DroidSansMNerdFont-Regular:size=10" };
 static const char dmenufont[]       = "monospace:size=10";
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
@@ -72,6 +72,12 @@ static const char *termcmd[]  = { "alacritty", "-e", "fish", NULL };
 static const char *tmuxcmd[]  = { "alacritty", "-e", "tmux", "a", NULL };
 static const char *brave[] = { "brave", NULL };
 static const char *project[] = { "project.sh", NULL };
+static const char *brightnessup[] = {"brightnessctl", "set", "5%+", NULL};
+static const char *brightnessdown[] = {"brightnessctl", "set", "5%-", NULL};
+static const char *mutecmd[] = {"amixer","sset","Master","toggle", NULL};
+static const char *voldowncmd[] = {"pamixer","--allow-boost","--set-limit","150","-d","3", NULL};
+static const char *volupcmd[] = {"pamixer","--allow-boost","--set-limit","150","-i","3", NULL};
+static const char *screencmd[] = {"flameshot","gui", NULL};
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -87,7 +93,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
-	{ MODKEY,                       XK_Return, zoom,           {0} },
+	// { MODKEY,                       XK_Return, zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ MODKEY,                       XK_q,      killclient,     {0} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
@@ -113,6 +119,12 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
     { MODKEY|ShiftMask,             XK_r,      quit,           {1} },
+    {0,                             XF86XK_MonBrightnessUp, spawn,    {.v=brightnessup}},
+    {0,                             XF86XK_MonBrightnessDown, spawn, {.v=brightnessdown}},
+    { 0,                            XF86XK_AudioMute, spawn, {.v = mutecmd } },
+    { 0,                            XF86XK_AudioLowerVolume, spawn, {.v = voldowncmd } },
+    { 0,                            XF86XK_AudioRaiseVolume, spawn, {.v = volupcmd } },
+    { 0,                            XK_Print,   spawn,      {.v = screencmd } },
 };
 
 /* button definitions */
