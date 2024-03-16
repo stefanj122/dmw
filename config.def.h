@@ -2,7 +2,7 @@
 
 /* appearance */
 static const unsigned int borderpx  = 3;        /* border pixel of windows */
-static const unsigned int gappx     = 5;        /* gaps between windows */
+static const unsigned int gappx     = 3;        /* gaps between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
 static const unsigned int systrayonleft = 0;    /* 0: systray in the right corner, >0: systray on left of status text */
@@ -119,12 +119,12 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
     { MODKEY|ShiftMask,             XK_r,      quit,           {1} },
-    {0,                             XF86XK_MonBrightnessUp, spawn,    {.v=brightnessup}},
-    {0,                             XF86XK_MonBrightnessDown, spawn, {.v=brightnessdown}},
-    { 0,                            XF86XK_AudioMute, spawn, {.v = mutecmd } },
-    { 0,                            XF86XK_AudioLowerVolume, spawn, {.v = voldowncmd } },
-    { 0,                            XF86XK_AudioRaiseVolume, spawn, {.v = volupcmd } },
-    { 0,                            XK_Print,   spawn,      {.v = screencmd } },
+    { 0,                            XF86XK_MonBrightnessUp,    spawn, {.v=brightnessup}},
+    { 0,                            XF86XK_MonBrightnessDown,  spawn, {.v=brightnessdown}},
+    { 0,                            XF86XK_AudioMute,          spawn, {.v = mutecmd } },
+    { 0,                            XF86XK_AudioLowerVolume,   spawn, {.v = voldowncmd } },
+    { 0,                            XF86XK_AudioRaiseVolume,   spawn, {.v = volupcmd } },
+    { 0,                            XK_Print,                  spawn, {.v = screencmd } },
 };
 
 /* button definitions */
