@@ -73,12 +73,14 @@ static const char *termcmd[]  = { "alacritty", "-e", "fish", NULL };
 static const char *tmuxcmd[]  = { "alacritty", "-e", "tmux", "a", NULL };
 static const char *brave[] = { "brave", NULL };
 static const char *project[] = { "project.sh", NULL };
-static const char *brightnessup[] = {"brightnessctl", "set", "5%+", NULL};
-static const char *brightnessdown[] = {"brightnessctl", "set", "5%-", NULL};
-static const char *mutecmd[] = {"amixer","sset","Master","toggle", NULL};
-static const char *voldowncmd[] = {"pamixer","--allow-boost","--set-limit","150","-d","3", NULL};
-static const char *volupcmd[] = {"pamixer","--allow-boost","--set-limit","150","-i","3", NULL};
+static const char *brightnessup[] = {"progress-notify.sh","brightness","up", NULL};
+static const char *brightnessdown[] = {"progress-notify.sh","brightness","down", NULL};
+static const char *mutecmd[] = {"progress-notify.sh","audio","mute", NULL};
+static const char *voldowncmd[] = {"progress-notify.sh","audio","down", NULL};
+static const char *volupcmd[] = {"progress-notify.sh","audio","up", NULL};
 static const char *screencmd[] = {"flameshot","gui", NULL};
+static const char *toggleSuspending[] = {"sus.sh", NULL};
+static const char *popNotification[] = {"notification-history.sh", NULL};
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -113,6 +115,8 @@ static const Key keys[] = {
     { MODKEY|ControlMask,           XK_n,      show,           {0} },
 	{ MODKEY|ShiftMask,             XK_s,      showall,        {0} },
 	{ MODKEY,                       XK_n,      hide,           {0} },
+    { ALTMOD|ShiftMask,             XK_k,      spawn,          {.v = toggleSuspending } },
+    {MODKEY,                        XK_grave,  spawn,          {.v = popNotification} },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
