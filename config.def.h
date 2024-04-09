@@ -2,6 +2,7 @@
 
 /* appearance */
 #include <X11/X.h>
+#include "exitdwm.c"
 static const unsigned int borderpx  = 3;        /* border pixel of windows */
 static const unsigned int gappx     = 3;        /* gaps between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
@@ -67,7 +68,7 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
+static const char *dmenucmd[] = { "dmenu_run_history", NULL};
 static const char *rofi[] = { "rofi_launcher", NULL };
 static const char *termcmd[]  = { "alacritty", "-e", "fish", NULL };
 static const char *tmuxcmd[]  = { "alacritty", "-e", "tmux", "a", NULL };
@@ -81,14 +82,17 @@ static const char *volupcmd[] = {"progress-notify.sh","audio","up", NULL};
 static const char *screencmd[] = {"flameshot","gui", NULL};
 static const char *toggleSuspending[] = {"sus.sh", NULL};
 static const char *popNotification[] = {"notification-history.sh", NULL};
+static const char *clip[] = {"clipmenu", NULL};
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_e,      spawn,          {.v = rofi } },
+	{ MODKEY|ShiftMask,             XK_e,      spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = tmuxcmd } },
 	{ MODKEY,                       XK_p,      spawn,          {.v = project } },
 	{ ALTMOD,                       XK_b,      spawn,          {.v = brave } },
+	{ MODKEY,                       XK_c,      spawn,          {.v = clip } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
     { MODKEY,                       XK_j,      focusstackvis,  {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstackvis,  {.i = -1 } },
@@ -126,7 +130,7 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_7,                      6)
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
-	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+	{ MODKEY|ShiftMask,             XK_q,      exitdwm,           {0} },
     { MODKEY|ShiftMask,             XK_r,      quit,           {1} },
     { 0,                            XF86XK_MonBrightnessUp,    spawn, {.v=brightnessup}},
     { 0,                            XF86XK_MonBrightnessDown,  spawn, {.v=brightnessdown}},
@@ -142,7 +146,7 @@ static const Button buttons[] = {
 	/* click                event mask      button          function        argument */
     { ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
 	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
-    { ClkWinTitle,          0,              Button1,        togglewin,      {0} },
+    { ClkWinTitle,          0,              Button3,        togglewin,      {0} },
 	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
 	{ ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
