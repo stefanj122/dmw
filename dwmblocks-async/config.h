@@ -1,6 +1,6 @@
 #ifndef CONFIG_H
 #define CONFIG_H
-#define PATH(name) "/home/stefanj/Downloads/dwmblocks-async/modules/" name
+#define PATH(name) "/home/stefanj/.config/dwm/dwmblocks-async/modules/" name
 
 // String used to delimit block outputs in the status.
 #define DELIMITER " | "
