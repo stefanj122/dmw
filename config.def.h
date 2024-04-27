@@ -3,6 +3,7 @@
 /* appearance */
 #include <X11/X.h>
 #include "exitdwm.c"
+
 static const unsigned int borderpx  = 3;        /* border pixel of windows */
 static const unsigned int gappx     = 3;        /* gaps between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
@@ -34,9 +35,10 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
-	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
+	/* class              instance    title       tags mask     isfloating   monitor */
+	{ "Gimp",             NULL,       NULL,       0,            1,           -1 },
+	{ "Firefox",          NULL,       NULL,       1 << 8,       0,           -1 },
+	{ "teams-for-linux",  NULL,       NULL,       4,            0,            0 },
 };
 
 /* layout(s) */
@@ -65,6 +67,7 @@ static const Layout layouts[] = {
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
+#include "maximize.c"
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
@@ -106,7 +109,8 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ MODKEY,                       XK_q,      killclient,     {0} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
-	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
+	{ MODKEY,                       XK_m,      togglemaximize, {.v = &layouts[2]} },
+    { MODKEY|ControlMask,           XK_m,      setlayout,      {0} },
     { MODKEY,                       XK_f,      togglefullscr,  {0} },
 	// { MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
@@ -157,4 +161,5 @@ static const Button buttons[] = {
 	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
 	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
 };
+
 
