@@ -1264,6 +1264,7 @@ grabkeys(void)
 void
 hide(const Arg *arg)
 {
+    selmon->sel->isfloating = 1;
 	hidewin(selmon->sel);
 	focus(NULL);
 	arrange(selmon);
@@ -2154,8 +2155,10 @@ showall(const Arg *arg)
 	Client *c = NULL;
 	selmon->hidsel = 0;
 	for (c = selmon->clients; c; c = c->next) {
-		if (ISVISIBLE(c))
+		if (ISVISIBLE(c)){
+            c->isfloating = 0;
 			showwin(c);
+        }
 	}
 	if (!selmon->sel) {
 		for (c = selmon->clients; c && !ISVISIBLE(c); c = c->next);
