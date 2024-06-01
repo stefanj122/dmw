@@ -932,8 +932,9 @@ drawbar(Monitor *m)
 					continue;
 				if (m->sel == c)
 					scm = SchemeSel;
-				else if (HIDDEN(c))
+				else if (HIDDEN(c)){
 					scm = SchemeHid;
+                }
 				else
 					scm = SchemeNorm;
 				drw_setscheme(drw, scheme[scm]);
@@ -1264,7 +1265,7 @@ grabkeys(void)
 void
 hide(const Arg *arg)
 {
-    selmon->sel->isfloating = 1;
+    // selmon->sel->isfloating = 1;
 	hidewin(selmon->sel);
 	focus(NULL);
 	arrange(selmon);
@@ -1538,7 +1539,7 @@ movemouse(const Arg *arg)
 Client *
 nexttiled(Client *c)
 {
-        for (; c && (c->isfloating || !ISVISIBLE(c)); c = c->next);
+        for (; c && (c->isfloating || !ISVISIBLE(c) || HIDDEN(c)); c = c->next);
 	return c;
 }
 
@@ -1674,7 +1675,7 @@ resizeclient(Client *c, int x, int y, int w, int h)
 	for (n = 0, nbc = nexttiled(c->mon->clients); nbc; nbc = nexttiled(nbc->next), n++);
 
 	/* Do nothing if layout is floating */
-	if (c->isfloating || c->mon->lt[c->mon->sellt]->arrange == NULL) {
+	if (c->isfloating || c->mon->lt[c->mon->sellt]->arrange == NULL || HIDDEN(c)) {
 		gapincr = gapoffset = 0;
 	} else {
 		/* Remove border and gap if layout is monocle or only one client */
@@ -1778,13 +1779,14 @@ restack(Monitor *m)
 	drawbar(m);
 	if (!m->sel)
 		return;
-	if (m->sel->isfloating || !m->lt[m->sellt]->arrange)
+	if (m->sel->isfloating || !m->lt[m->sellt]->arrange) 
 		XRaiseWindow(dpy, m->sel->win);
 	if (m->lt[m->sellt]->arrange) {
 		wc.stack_mode = Below;
 		wc.sibling = m->barwin;
 		for (c = m->stack; c; c = c->snext)
-			if (!c->isfloating && ISVISIBLE(c)) {
+			if (!c->isfloating && ISVISIBLE(c) && !HIDDEN(c)) {
+                printf("monitor2 %s\n", c->name);
 				XConfigureWindow(dpy, c->win, CWSibling|CWStackMode, &wc);
 				wc.sibling = c->win;
 			}
@@ -2156,7 +2158,7 @@ showall(const Arg *arg)
 	selmon->hidsel = 0;
 	for (c = selmon->clients; c; c = c->next) {
 		if (ISVISIBLE(c)){
-            c->isfloating = 0;
+            // c->isfloating = 0;
 			showwin(c);
         }
 	}
@@ -2187,7 +2189,7 @@ showhide(Client *c)
 	if (ISVISIBLE(c)) {
 		/* show clients top down */
 		XMoveWindow(dpy, c->win, c->x, c->y);
-		if ((!c->mon->lt[c->mon->sellt]->arrange || c->isfloating) && !c->isfullscreen)
+		if ((!c->mon->lt[c->mon->sellt]->arrange || c->isfloating || HIDDEN(c)) && !c->isfullscreen)
 			resize(c, c->x, c->y, c->w, c->h, 0);
 		showhide(c->snext);
 	} else {

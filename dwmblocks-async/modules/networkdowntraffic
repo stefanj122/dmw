@@ -12,7 +12,7 @@ get_down_traffic()
     IFACES=$(ip -o link show | awk -F': ' '{print $2}')
     for IFACE in $IFACES; do
         if [ $IFACE != "lo" ]; then
-            RECEIVE1=$(($(ip -s -c link show $IFACE | tail -n3 | head -n 1 | cut -d " " -f6) + $RECEIVE1))
+            RECEIVE1=$(($(ip -s -c link show $IFACE | tail -n3 | head -n 1 | awk '{printf $1}') + $RECEIVE1))
         fi
     done
     
@@ -21,7 +21,7 @@ get_down_traffic()
     IFACES=$(ip -o link show | awk -F': ' '{print $2}')
     for IFACE in $IFACES; do
         if [ $IFACE != "lo" ]; then
-            RECEIVE2=$(($(ip -s -c link show $IFACE | tail -n3 | head -n 1 | cut -d " " -f6) + $RECEIVE2))
+            RECEIVE2=$(($(ip -s -c link show $IFACE | tail -n3 | head -n 1 | awk '{printf $1}') + $RECEIVE2))
         fi
     done
     
