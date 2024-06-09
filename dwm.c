@@ -1265,7 +1265,6 @@ grabkeys(void)
 void
 hide(const Arg *arg)
 {
-    // selmon->sel->isfloating = 1;
 	hidewin(selmon->sel);
 	focus(NULL);
 	arrange(selmon);
@@ -1786,7 +1785,6 @@ restack(Monitor *m)
 		wc.sibling = m->barwin;
 		for (c = m->stack; c; c = c->snext)
 			if (!c->isfloating && ISVISIBLE(c) && !HIDDEN(c)) {
-                printf("monitor2 %s\n", c->name);
 				XConfigureWindow(dpy, c->win, CWSibling|CWStackMode, &wc);
 				wc.sibling = c->win;
 			}
@@ -2158,7 +2156,6 @@ showall(const Arg *arg)
 	selmon->hidsel = 0;
 	for (c = selmon->clients; c; c = c->next) {
 		if (ISVISIBLE(c)){
-            // c->isfloating = 0;
 			showwin(c);
         }
 	}
