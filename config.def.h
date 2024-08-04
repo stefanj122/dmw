@@ -63,8 +63,6 @@ static const Layout layouts[] = {
 	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
 	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} }, \
-    { ALTMOD,                       KEY,      focusnthmon,    {.i  = TAG } }, \
-    { ALTMOD|ShiftMask,             KEY,      tagnthmon,      {.i  = TAG } },
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
@@ -74,8 +72,8 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run_history", NULL};
 static const char *rofi[] = { "rofi_launcher", NULL };
-static const char *termcmd[]  = { "alacritty", "-e", "fish", NULL };
-static const char *tmuxcmd[]  = { "alacritty", "-e", "tmux", "a", NULL };
+static const char *termcmd[]  = { "wezterm", "-e", "fish", NULL };
+static const char *tmuxcmd[]  = { "wezterm", "-e", "tmux", "a", NULL };
 static const char *brave[] = { "brave", NULL };
 static const char *project[] = { "project.sh", NULL };
 static const char *brightnessup[] = {"progress-notify.sh","brightness","up", NULL};
@@ -87,6 +85,10 @@ static const char *screencmd[] = {"flameshot","gui", NULL};
 static const char *toggleSuspending[] = {"sus.sh", NULL};
 static const char *popNotification[] = {"notification-history.sh", NULL};
 static const char *clip[] = {"clipmenu", NULL};
+static const char *xcolor[] = {"xcolor-pick", NULL};
+static const char *medplaypausecmd[] = { "playerctl", "-a", "play-pause", NULL };
+static const char *mednextcmd[] = { "playerctl", "-a", "next", NULL };
+static const char *medprevcmd[] = { "playerctl", "-a", "previous", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -97,6 +99,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_p,      spawn,          {.v = project } },
 	{ ALTMOD,                       XK_b,      spawn,          {.v = brave } },
 	{ MODKEY,                       XK_c,      spawn,          {.v = clip } },
+	{ MODKEY,                       XK_x,      spawn,          {.v = xcolor } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
     { MODKEY,                       XK_j,      focusstackvis,  {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstackvis,  {.i = -1 } },
@@ -125,7 +128,9 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_s,      showall,        {0} },
 	{ MODKEY,                       XK_n,      hide,           {0} },
     { ALTMOD|ShiftMask,             XK_k,      spawn,          {.v = toggleSuspending } },
-    {MODKEY,                        XK_grave,  spawn,          {.v = popNotification} },
+    { ALTMOD,                       XK_grave,  spawn,          {.v = popNotification} },
+    { MODKEY|ShiftMask,             XK_grave,  tagnthmon,      {0} },
+    { MODKEY,                       XK_grave,  focusnthmon,    {0} },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
@@ -142,6 +147,9 @@ static const Key keys[] = {
     { 0,                            XF86XK_AudioMute,          spawn, {.v = mutecmd } },
     { 0,                            XF86XK_AudioLowerVolume,   spawn, {.v = voldowncmd } },
     { 0,                            XF86XK_AudioRaiseVolume,   spawn, {.v = volupcmd } },
+    { 0,                            XF86XK_AudioPlay,          spawn, {.v = medplaypausecmd } },
+    { 0,                            XF86XK_AudioNext,          spawn, {.v = mednextcmd } },
+    { 0,                            XF86XK_AudioPrev,          spawn, {.v = medprevcmd } },
     { 0,                            XK_Print,                  spawn, {.v = screencmd } },
 };
 

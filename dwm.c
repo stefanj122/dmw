@@ -870,12 +870,14 @@ Monitor *
 numtomon(int num)
 {
 	Monitor *m = NULL;
-	int i = 0;
 
-	for(m = mons, i=0; m->next && i < num; m = m->next){
-		i++;
-	}
-	return m;
+    m = selmon;
+    if (m->next) {
+      m = m->next;
+    } else if (m->num > 0){
+      m = mons;
+    }
+    return m;
 }
 
 void
