@@ -74,7 +74,8 @@ static const char *dmenucmd[] = { "dmenu_run_history", NULL};
 static const char *rofi[] = { "rofi_launcher", NULL };
 static const char *termcmd[]  = { "wezterm", "-e", "fish", NULL };
 static const char *tmuxcmd[]  = { "wezterm", "-e", "tmux", "a", NULL };
-static const char *brave[] = { "brave", NULL };
+// static const char *brave[] = { "brave", NULL };
+static const char *zen[] = { "zen-browser", NULL };
 static const char *project[] = { "project.sh", NULL };
 static const char *brightnessup[] = {"progress-notify.sh","brightness","up", NULL};
 static const char *brightnessdown[] = {"progress-notify.sh","brightness","down", NULL};
@@ -89,6 +90,7 @@ static const char *xcolor[] = {"xcolor-pick", NULL};
 static const char *medplaypausecmd[] = { "playerctl", "-a", "play-pause", NULL };
 static const char *mednextcmd[] = { "playerctl", "-a", "next", NULL };
 static const char *medprevcmd[] = { "playerctl", "-a", "previous", NULL };
+static const char *passmenu[] = { "passmenu" };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -97,7 +99,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = tmuxcmd } },
 	{ MODKEY,                       XK_p,      spawn,          {.v = project } },
-	{ ALTMOD,                       XK_b,      spawn,          {.v = brave } },
+	{ ALTMOD,                       XK_b,      spawn,          {.v = zen } },
 	{ MODKEY,                       XK_c,      spawn,          {.v = clip } },
 	{ MODKEY,                       XK_x,      spawn,          {.v = xcolor } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
@@ -129,6 +131,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_n,      hide,           {0} },
     { ALTMOD|ShiftMask,             XK_k,      spawn,          {.v = toggleSuspending } },
     { ALTMOD,                       XK_grave,  spawn,          {.v = popNotification} },
+    { ALTMOD,                       XK_p,         spawn,          {.v = passmenu} },
     { MODKEY|ShiftMask,             XK_grave,  tagnthmon,      {0} },
     { MODKEY,                       XK_grave,  focusnthmon,    {0} },
 	TAGKEYS(                        XK_1,                      0)
