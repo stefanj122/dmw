@@ -6,7 +6,9 @@
 PREFIX=' '
 FIRE=' '
 
-WARNING_LEVEL=80
+CRITICAL_LEVEL=85
+WARNING_LEVEL=75
+
 
 get_cputemp()
 {
@@ -15,11 +17,13 @@ get_cputemp()
 
 	CPU_TEMP="$(sensors | grep Package | awk 'NR==1{gsub("+", " "); gsub("\\..", " "); print $4}')"
 
-	if [ "$CPU_TEMP" -ge $WARNING_LEVEL ]; then
-		PREFIX="$FIRE$PREFIX"
+	if [ "$CPU_TEMP" -ge $CRITICAL_LEVEL ]; then
+		PREFIX="\x04$FIRE$PREFIX"
+    elif [ "$CPU_TEMP" -ge $WARNING_LEVEL ]; then
+		PREFIX="\x05$FIRE$PREFIX"
 	fi
 
-	echo "$PREFIX$CPU_TEMP°C"
+	echo -e "$PREFIX$CPU_TEMP°C \x01"
 }
 
 get_cputemp

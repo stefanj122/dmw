@@ -25,7 +25,7 @@ get_down_traffic()
         fi
     done
     
-    echo "$PREFIX$(expr $(expr $RECEIVE2 - $RECEIVE1 ) / 1024)KB/s"
+    echo -e "$PREFIX$(expr $(expr $RECEIVE2 - $RECEIVE1 ) / 1024)KB/s"
 }
 
 get_down_traffic

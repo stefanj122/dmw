@@ -33,18 +33,23 @@ get_battery()
         if [ -z $pid ]; then
             ICON="$DISABLED$ICON"
         fi
+            STATUS="\x01"
 
 		if [[ $capacity -ge $FULL_AT ]]; then
 			BAT_ICON=$BATTERY_FULL_ICON
-		elif [[ $capacity -le 25 ]]; then
+		elif [[ $capacity -le 15 ]]; then
 			BAT_ICON=$BATTERY_4_ICON
+            STATUS="\x05"
+		elif [[ $capacity -le 35 ]]; then
+			BAT_ICON=$BATTERY_4_ICON
+            STATUS="\x04"
 		elif [[ $capacity -le 60 ]]; then
 			BAT_ICON=$BATTERY_3_ICON
 		elif [[ $capacity -le $FULL_AT ]]; then
 			BAT_ICON=$BATTERY_2_ICON
 		fi
 	fi
-	echo "$ICON$BAT_ICON  $capacity%"
+	echo -e "$STATUS$ICON$BAT_ICON  $capacity% \x01"
 }
 
 get_battery
